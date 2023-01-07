@@ -6,6 +6,8 @@ from textwrap import fill
 from PIL import Image, ImageDraw, ImageFont
 from pathlib import Path
 
+from data_source import get_list
+
 R_PATH = Path(__file__).parents[0]
 TEXT_PATH = R_PATH / 'texture2D'
 # RELIC_PATH = R_PATH / 'relicIcon'
@@ -568,10 +570,10 @@ async def draw_chars_wiki_img(data: dict) -> None:
     return None
 
 
-async def get_artifacts_wiki_img():
-    a_list = ['魔女', '勇士', '辰砂往生录', '楼阁']
+async def get_artifacts_wiki_img(_list: list) -> None:
+    # a_list = ['魔女', '勇士', '辰砂往生录', '楼阁']
     i = 0
-    for item in a_list:
+    for item in _list:
         print(f'查找圣遗物{item}')
         if not WIKI_ARTIFACTS_PATH.exists():
             WIKI_ARTIFACTS_PATH.mkdir()
@@ -590,10 +592,10 @@ async def get_artifacts_wiki_img():
     print(f'累计导出{i}张')
 
 
-async def get_weapons_wiki_img():
-    b_list = ['飞雷', '图拉']
+async def get_weapons_wiki_img(_list: list) -> None:
+    # b_list = ['飞雷', '图拉']
     i = 0
-    for item in b_list:
+    for item in _list:
         print(f'查找武器{item}')
         if not WIKI_WEAPON_PATH.exists():
             WIKI_WEAPON_PATH.mkdir()
@@ -612,10 +614,10 @@ async def get_weapons_wiki_img():
     print(f'累计导出{i}张')
 
 
-async def get_chars_wiki_img():
-    c_list = ['钟离', '胡桃']
+async def get_chars_wiki_img(_list: list) -> None:
+    # c_list = ['钟离', '胡桃']
     i = 0
-    for item in c_list:
+    for item in _list:
         print(f'查找角色{item}')
         if not WIKI_CHAR_PATH.exists():
             WIKI_CHAR_PATH.mkdir()
@@ -635,10 +637,10 @@ async def get_chars_wiki_img():
 
 
 async def main():
-    a_list = ['海染', '勇士', '辰砂往生录', '来歆余响', '华馆梦醒形骸记', '海染砗磲', '绝缘之旗印', '追忆之注连', '千岩牢固', '苍白之火', '平息鸣雷的尊者', '炽烈的炎之魔女', '流浪大地的乐团', '染血的骑士道', '被怜爱的少女', '角斗士的终幕礼', '渡过烈火的贤人', '悠古的磐岩',
-              '如雷的盛怒', '沉沦之心', '逆飞的流星', '昔日宗室之仪', '翠绿之影', '冰风迷途的勇士', '勇士之心', '教官', '流放者', '战狂', '武人', '学士', '赌徒', '奇迹', '行者之心', '守护之心', '幸运儿', '冒险家', '游医', '祭冰之人', '祭雷之人', '祭火之人', '祭水之人']
-    b_list = ['飞雷', '图拉']
-    c_list = ['钟离']
+    # a_list = ['海染', '勇士', '辰砂往生录', '来歆余响', '华馆梦醒形骸记', '海染砗磲', '绝缘之旗印', '追忆之注连', '千岩牢固', '苍白之火', '平息鸣雷的尊者', '炽烈的炎之魔女', '流浪大地的乐团', '染血的骑士道', '被怜爱的少女', '角斗士的终幕礼', '渡过烈火的贤人', '悠古的磐岩',
+    #           '如雷的盛怒', '沉沦之心', '逆飞的流星', '昔日宗室之仪', '翠绿之影', '冰风迷途的勇士', '勇士之心', '教官', '流放者', '战狂', '武人', '学士', '赌徒', '奇迹', '行者之心', '守护之心', '幸运儿', '冒险家', '游医', '祭冰之人', '祭雷之人', '祭火之人', '祭水之人']
+    # b_list = ['飞雷', '图拉']
+    # c_list = ['钟离']
 
     # await get_artifacts_wiki_img()
 
@@ -646,5 +648,18 @@ async def main():
 
     # await get_chars_wiki_img()
 
+    artifact_list = await get_list('圣遗物列表')
+    # print(artifact_list)
+    await get_artifacts_wiki_img(artifact_list)
+    asyncio.sleep(2)
+
+    char_list = await get_list('角色列表')
+    # print(char_list)
+    await get_chars_wiki_img(char_list)
+    asyncio.sleep(2)
+
+    weapon_list = await get_list('武器列表')
+    # print(weapon_list)
+    await get_weapons_wiki_img(weapon_list)
 
 asyncio.run(main())
