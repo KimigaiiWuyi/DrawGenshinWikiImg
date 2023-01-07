@@ -222,8 +222,9 @@ async def draw_artifacts_wiki_img(data: dict) -> None:
 
     for index, i in enumerate(artifacts_list):
         # for index, i in enumerate(data['images']):
-        if '1pc' in data:
-            index = 4
+        if '1pc' in data and i != 'circlet':
+            # index = 4
+            continue
         icon = data['images'][i].split('/')[-1]
         print("icon:", icon)
         icon_url = data['images'][i]
